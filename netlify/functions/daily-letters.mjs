@@ -40,7 +40,7 @@ async function dbRequest(url, key, path, {method='GET', body, prefer}={}) {
     ...(body ? {body:JSON.stringify(body)} : {}),
   });
   if (!res.ok) throw new Error(`Database request failed: ${res.status}`);
-  return res.status === 204 ? null : res.json();
+  const responseText = await res.text(); return responseText.trim() ? JSON.parse(responseText) : null;
 }
 export async function handler(event) {
   if (event.httpMethod !== 'POST') return reply(405,{error:'Method not allowed'});
