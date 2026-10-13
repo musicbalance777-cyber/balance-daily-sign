@@ -1,40 +1,133 @@
 <!doctype html>
-<html lang="uk">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#f5f1e9">
-  <title>BALANCE | The Editorial Notes</title>
-  <link rel="stylesheet" href="assets/styles/style.css">
-  <script src="assets/scripts/app.js" defer></script>
-</head>
-<body>
-  <main class="page">
-    <header class="masthead"><span class="eyebrow">A LITTLE MOMENT FOR YOURSELF</span><div class="brand">BALANCE<span class="brand-dot">.</span></div><div class="rule"></div><p class="edition">THE EDITORIAL NOTES <span>·</span> VOL. 01</p></header>
-    <section class="intro"><p class="overline">A NOTE FOR TODAY</p><h1>Something lovely<br><em>is waiting for you.</em></h1><p class="subhead">Три маленькі послання. Обери те, яке сьогодні відгукується найбільше.</p></section>
-    
-<section class="collection" aria-label="Поточна сезонна колекція">
-  <span class="season-label">CURRENT EDITION</span>
-  <p id="season-name">The Autumn Edition</p>
-</section>
+<html lang="uk"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#241108"><title>BALANCE — Твої листи на сьогодні</title>
+<style>
 
-    <section class="cards" aria-label="Оберіть картку">
-      <button class="note-card card-one" data-card="0" aria-label="Відкрити перше послання"><span class="clip"></span><span class="card-top">BALANCE / 01</span><span class="art art-one" aria-hidden="true"><span class="flower-stem"></span><span class="flower-head" aria-hidden="true">
-  <svg viewBox="0 0 100 100" width="100%" height="100%">
-    <g stroke="currentColor" stroke-width="5" stroke-linecap="round">
-      <line x1="50" y1="8" x2="50" y2="92"/>
-      <line x1="8" y1="50" x2="92" y2="50"/>
-      <line x1="20" y1="20" x2="80" y2="80"/>
-      <line x1="80" y1="20" x2="20" y2="80"/>
-    </g>
-  </svg>
-</span></span><span class="card-title">A quiet<br>reminder</span><span class="card-bottom">OPEN NOTE ↗</span></button>
-      <button class="note-card card-two" data-card="1" aria-label="Відкрити друге послання"><span class="clip"></span><span class="card-top">BALANCE / 02</span><span class="art art-two" aria-hidden="true"><span class="sun"></span><span class="horizon"></span></span><span class="card-title">A little<br>perspective</span><span class="card-bottom">OPEN NOTE ↗</span></button>
-      <button class="note-card card-three" data-card="2" aria-label="Відкрити третє послання"><span class="clip"></span><span class="card-top">BALANCE / 03</span><span class="art art-three" aria-hidden="true"><span class="leaf leaf-a"></span><span class="leaf leaf-b"></span><span class="leaf leaf-c"></span></span><span class="card-title">A fresh<br>thought</span><span class="card-bottom">OPEN NOTE ↗</span></button>
-    </section>
-    <p class="hint">TAKE WHAT RESONATES. LEAVE THE REST.</p>
-    <section id="message" class="message" hidden aria-live="polite"><p class="overline">A NOTE, JUST FOR YOU</p><div class="message-inner"><span class="message-index" id="message-index">NOTE 01</span><p id="message-text"></p><span class="signature">With love, BALANCE ♡</span></div><button id="again" class="again">Обрати інше послання ↗</button></section>
-    <footer><span>THE ART OF EVERYDAY BALANCE</span><a href="https://t.me/musicbalance777" target="_blank" rel="noopener noreferrer">VISIT THE CHANNEL ↗</a></footer>
-  </main>
-</body>
-</html>
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;}body{background:#241108;color:#fff4e8;font-family:Arial,sans-serif;text-align:center}body::before{content:'';position:fixed;inset:0;z-index:-1;background:linear-gradient(#1d0e072d,#1d0e072d),url('assets/BALANCE_Autumn_background.png') center center/cover no-repeat}.page{min-height:100dvh;padding:26px 12px 40px;background:transparent}.brand{font-size:clamp(28px,7vw,44px);letter-spacing:.27em;margin:0 0 10px;padding-left:.27em}.tag{font-size:10px;letter-spacing:.2em}.intro{font-size:12px;opacity:.85;margin:18px 0}.controls{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;position:relative;z-index:30}button,select{border:1px solid #fce8d9a0;border-radius:30px;background:#382016e8;color:white;padding:10px 13px;font:12px Arial;cursor:pointer}/* Envelope and letter share a single proportional coordinate system. */
+.stage{width:min(94vw,570px);height:clamp(690px,135vw,830px);margin:20px auto 0;position:relative;isolation:isolate}
+.env{position:absolute;width:100%;aspect-ratio:1278/762;top:59%;left:0;filter:drop-shadow(0 14px 18px #1607017a);perspective:1100px;transform-style:preserve-3d}
+.piece{position:absolute;inset:0;width:100%;height:100%;object-fit:fill;pointer-events:none}
+.back{z-index:1}.front{z-index:8;transition:clip-path .45s ease;clip-path:none}
+.stage[data-state="opening"] .front,.stage[data-state="open"] .front{clip-path:polygon(0 0,50% 72%,100% 0,100% 100%,0 100%)}
+.flap{z-index:5;transform-origin:50% 3%;transition:transform .85s ease;backface-visibility:visible;will-change:transform}
+/* The twig rises separately from the letter, entirely behind the envelope front.
+   The front is the physical occlusion mask throughout the animation. */
+.autumn-twig{position:absolute;width:33%;height:auto;right:3%;top:-10%;pointer-events:none;user-select:none;filter:drop-shadow(0 3px 3px #2a100c50);opacity:0;transform:translateY(62%) scale(.96);transition:transform 1.45s cubic-bezier(.2,.68,.19,1),opacity .35s ease;will-change:transform,opacity}
+.autumn-twig--behind{z-index:7}
+.stage[data-state="opening"] .autumn-twig,.stage[data-state="open"] .autumn-twig{opacity:1;transform:translateY(0) scale(1);transition-delay:.75s,.75s}
+.seal{z-index:10;transition:opacity .4s,transform .4s}.closed{z-index:12;transition:opacity .22s}
+/* The clipping window extends UP only. The letter can never protrude below the envelope. */
+.letter-clip{position:absolute;z-index:7;left:0;right:0;top:-130%;bottom:2%;overflow:hidden;pointer-events:none}
+.letter{position:absolute;left:6%;width:88%;aspect-ratio:929/1327;height:auto;bottom:-160%;transition:bottom 1.5s cubic-bezier(.2,.68,.19,1);filter:drop-shadow(0 4px 7px #47240d55);isolation:isolate}
+.paper{position:absolute;inset:0;width:100%;height:100%;object-fit:fill;opacity:1}
+.heading{position:absolute;top:17%;left:8%;width:84%;height:13%;object-fit:contain;pointer-events:none}
+.heading[data-kind="important"]{transform:scale(.99)}.heading[data-kind="pleasant"]{transform:scale(.94)}.heading[data-kind="unexpected"]{transform:scale(.90)}
+.message{position:absolute;top:33%;left:10%;width:80%;height:22%;overflow:hidden;color:#5b3927;font:clamp(13px,2.4vw,18px)/1.42 Georgia,serif;text-align:center;opacity:0;transition:opacity 1.15s ease-in-out;display:flex;align-items:center;justify-content:center}
+.stage[data-state="opening"] .closed,.stage[data-state="open"] .closed{opacity:0}
+.stage[data-state="opening"] .seal,.stage[data-state="open"] .seal{opacity:1;transform:none}
+.stage[data-state="opening"] .flap,.stage[data-state="open"] .flap{transform:rotateX(-165deg);transition-delay:.2s}
+.stage[data-state="opening"] .letter,.stage[data-state="open"] .letter{bottom:-10%;transition-delay:.75s}
+.stage[data-state="open"] .message{opacity:1}
+/* Separate signature, positioned in the visible area above the envelope's V fold. */
+.letter-signature{position:absolute;top:56.5%;left:0;width:100%;color:#583824;font:clamp(10px,1.8vw,15px) Georgia,serif;letter-spacing:.38em;padding-left:.38em;text-align:center;opacity:0;transition:opacity .35s;z-index:2}
+.letter-signature:before{content:"";display:block;width:40px;height:1px;background:#8d6b4e;margin:0 auto 9px}
+.stage[data-state="open"] .letter-signature,.stage[data-state="opening"] .letter-signature{opacity:1}
+.hint{max-width:570px;margin:20px auto;font:12px/1.5 Arial;color:#f8e2d0}@media(prefers-reduced-motion:reduce){*,*:before,*:after{transition-duration:.01ms!important;transition-delay:0ms!important}}@media(max-width:460px){.stage{height:clamp(680px,190vw,810px)}.env{top:59%}.message{font-size:clamp(11px,3.2vw,14px)}}
+
+/* v29: Navigation and the approved home composition only. v26 rules above are untouched. */
+[hidden]{display:none!important}
+.home-screen{min-height:100dvh;display:flex;justify-content:center;align-items:flex-start;background:#241108}
+.home-art{width:min(100%, 480px);position:relative;line-height:0;box-shadow:0 0 55px #0f07065e}
+.home-art>img{display:block;width:100%;height:auto}
+.home-hit{position:absolute;left:22%;width:56%;height:15%;border:0;border-radius:12px;background:transparent;padding:0;cursor:pointer;touch-action:manipulation}
+.home-hit:focus-visible{outline:3px solid #fff0d6;outline-offset:3px;background:#ffffff12}
+.home-hit--important{top:35.5%}.home-hit--pleasant{top:53.4%}.home-hit--unexpected{top:71.3%}
+.home-channel{position:absolute;left:25%;top:94%;width:50%;height:3.3%;display:block}
+.home-channel:focus-visible{outline:2px solid white}
+.letter-page{position:relative}
+.back-nav{display:block;margin:15px auto 0;position:relative;z-index:31;border:1px solid #fce8d9a0;background:#382016e8;color:#fff4e8;letter-spacing:.08em;font-size:12px;padding:12px 20px}
+.letter-page .stage{margin-top:0}
+@media(max-width:460px){.letter-page .stage{margin-top:-10px}}
+
+/* v30: Full-bleed autumn environment on the home screen.
+   The approved home illustration, its dimensions, hit areas and v26 animation remain untouched. */
+.home-screen{position:relative;isolation:isolate;background:transparent;overflow:hidden}
+.home-screen::before{content:"";position:fixed;inset:0;z-index:-2;pointer-events:none;background:linear-gradient(#1d0e072d,#1d0e072d),url("assets/BALANCE_Autumn_background.png") center center/cover no-repeat}
+.home-screen::after{content:"";position:fixed;inset:-30px;z-index:-1;pointer-events:none;background:url("home/home.png") center center/cover no-repeat;filter:blur(24px) brightness(.72);opacity:.5}
+.home-art{z-index:1;box-shadow:none}
+/* Fade only the extreme outer edges of the composite on wide screens;
+   its central envelope imagery and click targets are unchanged. */
+@media(min-width:600px){.home-art{-webkit-mask-image:linear-gradient(to right,transparent 0%,#000 10%,#000 90%,transparent 100%);mask-image:linear-gradient(to right,transparent 0%,#000 10%,#000 90%,transparent 100%)}}
+@media(max-width:599px){.home-screen::after{display:none}.home-art{width:100%;max-width:480px}}
+
+
+/* v30.1: viewport background correction. Overrides only backdrop/layout.
+   The approved home image, envelope graphics and v26 animation remain unchanged. */
+html,body{min-height:100%;background:#241108}
+body::before{display:none!important}
+#balanceBackdrop{position:fixed;inset:0;z-index:0;pointer-events:none;background:#241108 url("assets/BALANCE_Autumn_background.png") center center / cover no-repeat}
+body>main{position:relative;z-index:1}
+.home-screen{background:transparent!important;isolation:auto;overflow:visible}
+.home-screen::before,.home-screen::after{display:none!important}
+/* The approved portrait artwork stays unmodified; an enlarged, soft copy
+   of the same image fills the widescreen surroundings without brown bars. */
+body:has(#homeScreen[hidden]) #homeBackdrop{display:none!important}
+#homeBackdrop{position:fixed;inset:-35px;z-index:0;pointer-events:none;background:url("home/home.png") center center / cover no-repeat;filter:blur(18px) brightness(.75)}
+.home-art{position:relative;z-index:1;box-shadow:none}
+@media(min-width:600px){
+ .home-art{-webkit-mask-image:linear-gradient(to right,transparent 0%,#000 14%,#000 86%,transparent 100%);mask-image:linear-gradient(to right,transparent 0%,#000 14%,#000 86%,transparent 100%)}
+}
+@media(max-width:599px){#homeBackdrop{display:none}.home-art{-webkit-mask-image:none;mask-image:none}}
+/* v31: approved responsive v17 home in isolated frame, preserving its typography and assets. */
+#homeScreen{display:block;min-height:100dvh;width:100%;overflow:hidden}
+#homeScreen iframe{width:100%;height:100dvh}
+/* v31.1: same approved backdrop and wordmark across both scenes. */
+#balanceBackdrop{background:#29180f url("home-v17/assets/autumn_background_approved.png") center center / cover no-repeat}
+#balanceBackdrop::after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 74% 27% at 46% 16%,rgba(19,7,4,.53),rgba(23,8,5,.31) 55%,transparent 100%),radial-gradient(ellipse 75% 19% at 46% 32%,rgba(23,8,5,.32),transparent 95%),radial-gradient(ellipse 70% 12% at 50% 92%,rgba(25,9,5,.15),transparent 90%)}
+.letter-page{padding:clamp(18px,3dvh,30px) 12px 24px;min-height:100dvh;overflow:hidden}
+.letter-header{position:relative;z-index:3}
+.letter-page .brand{font-family:Arial,Helvetica,sans-serif;font-size:clamp(27px,7.05vw,43px);font-weight:500;letter-spacing:.25em;line-height:1.15;padding-left:.25em;margin:0;color:#fff9f1;text-shadow:0 1px 2px rgba(20,8,5,.55)}
+.letter-page .tag{font-family:Arial,Helvetica,sans-serif;font-weight:400;font-size:clamp(8px,2.05vw,11px);letter-spacing:clamp(1.15px,.37vw,2.6px);margin-top:clamp(9px,1.35dvh,15px);color:#fff8f1;text-shadow:0 1px 3px rgba(19,7,4,.9),0 0 7px rgba(19,7,4,.5)}
+.letter-page .back-nav{position:absolute;top:clamp(95px,13dvh,122px);left:50%;transform:translateX(-50%);white-space:nowrap;margin:0;font-size:clamp(9px,2.7vw,12px);padding:10px 16px;z-index:35}
+.letter-page .stage{margin:0 auto;height:clamp(570px,150vw,750px)}
+.letter-page .env{top:36%}
+@media(max-width:460px){.letter-page .stage{height:clamp(550px,153vw,690px)}.letter-page .env{top:37%}}
+/* Cross-fade between scenes; no changes to the approved v26 envelope animation. */
+#homeScreen,#letterScreen{transition:opacity .34s ease;opacity:1}
+#homeScreen.scene-hidden,#letterScreen.scene-hidden{opacity:0;pointer-events:none}
+@media(prefers-reduced-motion:reduce){#homeScreen,#letterScreen{transition:none}}
+
+/* v31.2: balanced placement and softer scene transitions. */
+.letter-page .env{top:46%}
+@media(max-width:460px){.letter-page .env{top:46%}}
+#homeScreen,#letterScreen{transition:opacity .62s cubic-bezier(.22,1,.36,1),filter .62s cubic-bezier(.22,1,.36,1);filter:blur(0);opacity:1}
+#homeScreen.scene-hidden,#letterScreen.scene-hidden{opacity:0;filter:blur(3px);pointer-events:none}
+#homeScreen,#letterScreen{will-change:opacity,filter}
+/* Both scenes remain rendered during the cross-fade. */
+body.scene-transitioning #homeScreen,body.scene-transitioning #letterScreen{position:absolute;top:0;left:0;width:100%}
+body.scene-transitioning #homeScreen{z-index:2}
+body.scene-transitioning #letterScreen{z-index:3}
+@media(prefers-reduced-motion:reduce){#homeScreen,#letterScreen{transition:none;filter:none!important}}
+/* v31.3: deliberate cinematic dark dissolve and lowered open composition. */
+.letter-page .env{top:52%}
+@media(max-width:460px){.letter-page .env{top:52%}}
+#homeScreen,#letterScreen{transition:opacity 1.05s ease-in-out,filter 1.05s ease-in-out}
+#homeScreen.scene-hidden,#letterScreen.scene-hidden{filter:blur(1px)}
+#sceneVeil{position:fixed;inset:0;z-index:90;pointer-events:none;background:#170b08;opacity:0;transition:opacity .58s ease-in-out;will-change:opacity}
+body.veil-on #sceneVeil{opacity:.83}
+@media(prefers-reduced-motion:reduce){#sceneVeil{transition:none}}
+/* v31.4: opacity-only full dark curtain, no competing cross-fades. */
+#sceneVeil{background:#170b08;opacity:0;transition:opacity .45s ease-in-out;z-index:90}
+body.veil-on #sceneVeil{opacity:1}
+#homeScreen,#letterScreen{transition:none!important;filter:none!important}
+@media(prefers-reduced-motion:reduce){#sceneVeil{transition:none!important}}
+</style><script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head><body>
+<div id="sceneVeil" aria-hidden="true"></div><div id="balanceBackdrop" aria-hidden="true"></div><div id="homeBackdrop" aria-hidden="true"></div>
+<main id="homeScreen" class="home-screen" aria-label="BALANCE: обери лист на сьогодні"><iframe id="balanceHomeFrame" title="BALANCE — головний екран" src="home-v17/index.html" scrolling="auto" style="display:block;width:100%;height:100dvh;min-height:100svh;border:0;background:#29180f"></iframe></main>
+<main id="letterScreen" class="page letter-page" hidden>
+  <header class="letter-header"><h1 class="brand">BALANCE</h1><div class="tag">ДЕЯКІ ЛИСТИ ПРИХОДЯТЬ САМЕ ВЧАСНО</div></header>
+  <button id="back" class="back-nav" type="button">← ПОВЕРНУТИСЬ ДО КОНВЕРТІВ</button>
+  <div class="stage" id="stage" data-state="closed"><div class="env"><img class="piece back" src="assets/BALANCE_envelope_back_base_alpha.png"><div class="letter-clip"><div class="letter"><img class="paper" src="assets/BALANCE_paper_universal_alpha.png"><img class="heading" id="heading" src="assets/title_important.png"><div class="message" id="message"></div><div class="letter-signature" aria-label="BALANCE">BALANCE</div></div></div><img class="piece front" src="assets/BALANCE_envelope_front_corrected_alpha.png"><img class="piece flap" src="assets/BALANCE_envelope_top_flap_alpha.png"><img class="piece seal" src="assets/BALANCE_wax_seal_alpha.png"><img class="piece closed" src="assets/BALANCE_closed_envelope_alpha.png"><img class="autumn-twig autumn-twig--behind" src="assets/BALANCE_autumn_twig_alpha.png" alt="" aria-hidden="true"></div></div>
+</main>
+<script type="module" src="scripts/app-v29.mjs"></script>
+</body></html>
