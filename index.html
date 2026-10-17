@@ -212,6 +212,11 @@ body:has(#balanceLaunch:not(.is-finished)) #homeScreen {
 (() => {
   const launch = document.getElementById('balanceLaunch');
   const homeFrame = document.getElementById('balanceHomeFrame');
+  if (window.Telegram?.WebApp) {
+  window.Telegram.WebApp.setHeaderColor('#171717');
+  window.Telegram.WebApp.setBackgroundColor('#171717');
+  window.Telegram.WebApp.ready();
+}
    
   launch.classList.remove('is-finished', 'is-animating');
 void launch.offsetWidth;
