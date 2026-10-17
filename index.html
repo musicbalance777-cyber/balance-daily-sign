@@ -186,7 +186,7 @@ body:has(#balanceLaunch:not(.is-finished)) #homeScreen {
     <span style="--i:6">E</span>
   </div>
 </div><div id="sceneVeil" aria-hidden="true"></div><div id="balanceBackdrop" aria-hidden="true"></div><div id="homeBackdrop" aria-hidden="true"></div>
-<main id="homeScreen" class="home-screen" aria-label="BALANCE: обери лист на сьогодні"><iframe id="balanceHomeFrame" title="BALANCE — головний екран" src="home-v17/index.html" scrolling="auto" style="display:block;width:100%;height:100dvh;min-height:100svh;border:0;background:#29180f"></iframe></main>
+<main id="homeScreen" class="home-screen" aria-label="BALANCE: обери лист на сьогодні"><iframe id="balanceHomeFrame" title="BALANCE — головний екран" data-src="home-v17/index.html" scrolling="auto" style="display:block;width:100%;height:100dvh;min-height:100svh;border:0;background:#29180f"></iframe></main>
 <main id="letterScreen" class="page letter-page" hidden>
   <header class="letter-header"><h1 class="brand">BALANCE</h1><div class="tag">ДЕЯКІ ЛИСТИ ПРИХОДЯТЬ САМЕ ВЧАСНО</div></header>
   <button id="back" class="back-nav" type="button">← ПОВЕРНУТИСЬ ДО КОНВЕРТІВ</button>
@@ -196,6 +196,8 @@ body:has(#balanceLaunch:not(.is-finished)) #homeScreen {
 (() => {
   const launch = document.getElementById('balanceLaunch');
   const homeFrame = document.getElementById('balanceHomeFrame');
+   
+  homeFrame.src = homeFrame.dataset.src;
 
   let frameReady = false;
   let animationReady = false;
