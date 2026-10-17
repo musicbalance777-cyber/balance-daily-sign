@@ -121,7 +121,12 @@ body.veil-on #sceneVeil{opacity:1}
 #homeScreen,#letterScreen{transition:none!important;filter:none!important}
 @media(prefers-reduced-motion:reduce){#sceneVeil{transition:none!important}}
 /* BALANCE — universal smooth launch */
-#balanceLaunch {
+/* Hide the home screen until the launch animation finishes */
+body:has(#balanceLaunch:not(.is-finished)) #homeScreen {
+  visibility: hidden !important;
+}
+   
+   #balanceLaunch {
   position: fixed;
   inset: 0;
   z-index: 9999;
