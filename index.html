@@ -155,6 +155,10 @@ body:has(#balanceLaunch:not(.is-finished)) #homeScreen {
 
 .balance-launch-word span {
   opacity: 0;
+  animation: none;
+}
+
+#balanceLaunch.is-animating .balance-launch-word span {
   animation: balanceLetterReveal .85s ease forwards;
   animation-delay: calc(var(--i) * .23s);
 }
@@ -197,7 +201,15 @@ body:has(#balanceLaunch:not(.is-finished)) #homeScreen {
   const launch = document.getElementById('balanceLaunch');
   const homeFrame = document.getElementById('balanceHomeFrame');
    
-  homeFrame.src = homeFrame.dataset.src;
+  launch.classList.remove('is-finished', 'is-animating');
+void launch.offsetWidth;
+requestAnimationFrame(() => {
+  requestAnimationFrame(() => {
+    launch.classList.add('is-animating');
+  });
+});
+   
+   homeFrame.src = homeFrame.dataset.src;
 
   let frameReady = false;
   let animationReady = false;
