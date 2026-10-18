@@ -100,3 +100,11 @@ footer a {
 footer a {
   margin-top: 10px;
 }
+
+
+/* BALANCE — refined intro typography */
+
+.intro p {
+  letter-spacing: 0.12em;
+  line-height: 1.85;
+}
