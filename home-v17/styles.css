@@ -38,3 +38,13 @@ footer a{letter-spacing:.19em}
 @media(min-width:700px){.envelopes{width:min(29vw,241px,calc((100dvh - 443px)*1.677/3))}}
 @media(max-width:699px) and (max-height:750px){.intro p{margin-top:24px;font-size:9px}.intro{margin-bottom:21px}.envelopes{width:min(48vw,calc((100dvh - 358px)*1.677/3))}}
 @media(max-width:699px) and (max-height:600px){.intro p{margin-top:12px}.intro{margin-bottom:12px}.envelopes{width:min(45vw,calc((100dvh - 305px)*1.677/3))}}
+
+
+/* BALANCE — subtle envelope press feedback */
+.envelope {
+  transition: transform 180ms ease;
+}
+
+.envelope:active {
+  transform: scale(0.97);
+}
