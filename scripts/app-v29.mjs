@@ -124,7 +124,19 @@ function showHome() {
 document.querySelectorAll('[data-category]').forEach(button => {
   button.addEventListener('click', () => showLetter(button.dataset.category));
 });
-document.getElementById('back').addEventListener('click', showHome);
+const backButton = document.getElementById('back');
+
+backButton.addEventListener('click', () => {
+  if (navigating) return;
+
+  backButton.style.transition = 'transform 180ms ease';
+  backButton.style.transform = 'scale(0.97)';
+
+  setTimeout(() => {
+    backButton.style.transform = '';
+    showHome();
+  }, 180);
+});
 // Day changes are checked on every new opening, including after overnight inactivity.
 
 // v31: bridge the approved v17 home to the existing v26 opening flow.
