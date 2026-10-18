@@ -129,11 +129,11 @@ const backButton = document.getElementById('back');
 backButton.addEventListener('click', () => {
   if (navigating) return;
 
-  backButton.style.transition = 'transform 180ms ease';
-  backButton.style.transform = 'scale(0.97)';
+  backButton.style.transition = 'scale 180ms ease';
+backButton.style.scale = '0.97';
 
   setTimeout(() => {
-    backButton.style.transform = '';
+    backButton.style.scale = '';
     showHome();
   }, 180);
 });
