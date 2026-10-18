@@ -1,1 +1,97 @@
-<!doctype html><html lang="uk"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#28170f"><title>BALANCE — The Daily Sign</title><link rel="stylesheet" href="styles.css"></head><body><main class="home"><div class="background-layer" aria-hidden="true"><img src="assets/autumn_background_approved.png" alt=""></div><div class="content-layer"><header><div class="brand" role="img" aria-label="BALANCE">BALANCE</div><div class="tagline">ДЕЯКІ ЛИСТИ ПРИХОДЯТЬ САМЕ ВЧАСНО</div></header><section class="intro"><img class="script" src="assets/something_lovely_new.png" alt="Something lovely is waiting for you"><p>Три маленькі конверти.<br>Обери той, який хочеш відкрити сьогодні.</p></section><section class="envelopes" aria-label="Обрати конверт"><button class="envelope" data-kind="important"><img src="assets/closed_envelope.png" alt=""><span>Дещо важливе</span></button><button class="envelope" data-kind="pleasant"><img src="assets/closed_envelope.png" alt=""><span>Дещо приємне</span></button><button class="envelope" data-kind="unexpected"><img src="assets/closed_envelope.png" alt=""><span>Дещо несподіване</span></button></section><footer><p>THE ART OF EVERYDAY BALANCE</p><a href="https://t.me/musicbalance777" target="_blank" rel="noopener noreferrer">ПЕРЕЙТИ ДО КАНАЛУ</a></footer></div></main><script>document.querySelectorAll('.envelope').forEach(b=>b.addEventListener('click',()=>{window.parent.postMessage({type:'balance:open-envelope',category:b.dataset.kind},location.origin)}));</script></body></html>
+
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#28170f">
+  <title>BALANCE — The Daily Sign</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="home">
+    <div class="background-layer" aria-hidden="true">
+      <img src="assets/autumn_background_approved.png" alt="">
+    </div>
+
+    <div class="content-layer">
+      <header>
+        <div class="brand" role="img" aria-label="BALANCE">BALANCE</div>
+        <div class="tagline">ДЕЯКІ ЛИСТИ ПРИХОДЯТЬ САМЕ ВЧАСНО</div>
+      </header>
+
+      <section class="intro">
+        <img
+          class="script"
+          src="assets/something_lovely_new.png"
+          alt="Something lovely is waiting for you"
+        >
+        <p>
+          Три маленькі конверти<br>
+          Який хочеш відкрити сьогодні?
+        </p>
+      </section>
+
+      <section class="envelopes" aria-label="Обрати конверт">
+        <button class="envelope" data-kind="important">
+          <img src="assets/closed_envelope.png" alt="">
+          <span>Дещо важливе</span>
+        </button>
+
+        <button class="envelope" data-kind="pleasant">
+          <img src="assets/closed_envelope.png" alt="">
+          <span>Дещо приємне</span>
+        </button>
+
+        <button class="envelope" data-kind="unexpected">
+          <img src="assets/closed_envelope.png" alt="">
+          <span>Дещо несподіване</span>
+        </button>
+      </section>
+
+      <footer>
+        <p>THE ART OF EVERYDAY BALANCE</p>
+        <a
+          href="https://t.me/musicbalance777"
+          target="_blank"
+          rel="noopener noreferrer"
+        >ПЕРЕЙТИ ДО КАНАЛУ</a>
+      </footer>
+    </div>
+  </main>
+
+  <script>
+    let envelopeOpening = false;
+
+    document.querySelectorAll('.envelope').forEach((button) => {
+      button.addEventListener('click', () => {
+        if (envelopeOpening) return;
+        envelopeOpening = true;
+
+        // Ask the parent Telegram Mini App for subtle haptic feedback.
+        window.parent.postMessage({
+          type: 'balance:envelope-haptic'
+        }, location.origin);
+
+        // Subtle press animation.
+        button.style.transform = 'scale(0.97)';
+
+        // Open the letter after the press becomes visible.
+        setTimeout(() => {
+          button.style.transform = '';
+
+          window.parent.postMessage({
+            type: 'balance:open-envelope',
+            category: button.dataset.kind
+          }, location.origin);
+
+          // Allow another selection after returning to the home screen.
+          setTimeout(() => {
+            envelopeOpening = false;
+          }, 1000);
+        }, 180);
+      });
+    });
+  </script>
+</body>
+</html>

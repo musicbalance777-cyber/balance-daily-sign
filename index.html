@@ -1,5 +1,17 @@
 <!doctype html>
-<html lang="uk"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#241108"><title>BALANCE — Твої листи на сьогодні</title>
+<html lang="uk"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#171717"><style>
+  html, body {
+    background-color: #171717 !important;
+  }
+
+  #homeScreen {
+    visibility: hidden !important;
+  }
+
+  body:has(#balanceLaunch.is-finished) #homeScreen {
+    visibility: visible !important;
+  }
+</style><style>html,body{background:#171717!important}</style><title>BALANCE — Твої листи на сьогодні</title>
 <style>
 
 *{box-sizing:border-box}html,body{margin:0;min-height:100%;}body{background:#241108;color:#fff4e8;font-family:Arial,sans-serif;text-align:center}body::before{content:'';position:fixed;inset:0;z-index:-1;background:linear-gradient(#1d0e072d,#1d0e072d),url('assets/BALANCE_Autumn_background.png') center center/cover no-repeat}.page{min-height:100dvh;padding:26px 12px 40px;background:transparent}.brand{font-size:clamp(28px,7vw,44px);letter-spacing:.27em;margin:0 0 10px;padding-left:.27em}.tag{font-size:10px;letter-spacing:.2em}.intro{font-size:12px;opacity:.85;margin:18px 0}.controls{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;position:relative;z-index:30}button,select{border:1px solid #fce8d9a0;border-radius:30px;background:#382016e8;color:white;padding:10px 13px;font:12px Arial;cursor:pointer}/* Envelope and letter share a single proportional coordinate system. */
@@ -120,14 +132,128 @@ body.veil-on #sceneVeil{opacity:.83}
 body.veil-on #sceneVeil{opacity:1}
 #homeScreen,#letterScreen{transition:none!important;filter:none!important}
 @media(prefers-reduced-motion:reduce){#sceneVeil{transition:none!important}}
+/* BALANCE — universal smooth launch */
+/* Hide the home screen until the launch animation finishes */
+body:has(#balanceLaunch:not(.is-finished)) #homeScreen {
+  visibility: hidden !important;
+}
+   
+   #balanceLaunch {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: #171717;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity .7s ease, visibility .7s ease;
+}
+
+#balanceLaunch.is-finished {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.balance-launch-word {
+  display: flex;
+  padding-left: .25em;
+  gap: .25em;
+  color: #f5f0e8;
+  font: 500 clamp(25px, 7vw, 43px)/1.15 Arial, sans-serif;
+}
+
+.balance-launch-word span {
+  opacity: 0;
+  animation: none;
+}
+
+#balanceLaunch.is-animating .balance-launch-word span {
+  animation: balanceLetterReveal .85s ease forwards;
+  animation-delay: calc(var(--i) * .23s);
+}
+
+@keyframes balanceLetterReveal {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .balance-launch-word span {
+    animation: none;
+    opacity: 1;
+  }
+  #balanceLaunch {
+    transition: none;
+  }
+}
 </style><script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head><body>
-<div id="sceneVeil" aria-hidden="true"></div><div id="balanceBackdrop" aria-hidden="true"></div><div id="homeBackdrop" aria-hidden="true"></div>
-<main id="homeScreen" class="home-screen" aria-label="BALANCE: обери лист на сьогодні"><iframe id="balanceHomeFrame" title="BALANCE — головний екран" src="home-v17/index.html" scrolling="auto" style="display:block;width:100%;height:100dvh;min-height:100svh;border:0;background:#29180f"></iframe></main>
+<div id="balanceLaunch" aria-label="BALANCE завантажується">
+  <div class="balance-launch-word" aria-hidden="true">
+    <span style="--i:0">B</span>
+    <span style="--i:1">A</span>
+    <span style="--i:2">L</span>
+    <span style="--i:3">A</span>
+    <span style="--i:4">N</span>
+    <span style="--i:5">C</span>
+    <span style="--i:6">E</span>
+  </div>
+</div><div id="sceneVeil" aria-hidden="true"></div><div id="balanceBackdrop" aria-hidden="true"></div><div id="homeBackdrop" aria-hidden="true"></div>
+<main id="homeScreen" class="home-screen" aria-label="BALANCE: обери лист на сьогодні"><iframe id="balanceHomeFrame" title="BALANCE — головний екран" data-src="home-v17/index.html" scrolling="auto" style="display:block;width:100%;height:100dvh;min-height:100svh;border:0;background:#29180f"></iframe></main>
 <main id="letterScreen" class="page letter-page" hidden>
   <header class="letter-header"><h1 class="brand">BALANCE</h1><div class="tag">ДЕЯКІ ЛИСТИ ПРИХОДЯТЬ САМЕ ВЧАСНО</div></header>
   <button id="back" class="back-nav" type="button">← ПОВЕРНУТИСЬ ДО КОНВЕРТІВ</button>
   <div class="stage" id="stage" data-state="closed"><div class="env"><img class="piece back" src="assets/BALANCE_envelope_back_base_alpha.png"><div class="letter-clip"><div class="letter"><img class="paper" src="assets/BALANCE_paper_universal_alpha.png"><img class="heading" id="heading" src="assets/title_important.png"><div class="message" id="message"></div><div class="letter-signature" aria-label="BALANCE">BALANCE</div></div></div><img class="piece front" src="assets/BALANCE_envelope_front_corrected_alpha.png"><img class="piece flap" src="assets/BALANCE_envelope_top_flap_alpha.png"><img class="piece seal" src="assets/BALANCE_wax_seal_alpha.png"><img class="piece closed" src="assets/BALANCE_closed_envelope_alpha.png"><img class="autumn-twig autumn-twig--behind" src="assets/BALANCE_autumn_twig_alpha.png" alt="" aria-hidden="true"></div></div>
 </main>
-<script type="module" src="scripts/app-v29.mjs"></script>
+<script type="module" src="scripts/app-v29.mjs"></script><script>
+(() => {
+  const launch = document.getElementById('balanceLaunch');
+  const homeFrame = document.getElementById('balanceHomeFrame');
+  if (window.Telegram?.WebApp) {
+  window.Telegram.WebApp.setHeaderColor('#171717');
+  window.Telegram.WebApp.setBackgroundColor('#171717');
+  window.Telegram.WebApp.ready();
+}
+   
+  launch.classList.remove('is-finished', 'is-animating');
+void launch.offsetWidth;
+requestAnimationFrame(() => {
+  requestAnimationFrame(() => {
+    launch.classList.add('is-animating');
+  });
+});
+   
+   homeFrame.src = homeFrame.dataset.src;
+
+  let frameReady = false;
+  let animationReady = false;
+  let finished = false;
+
+  function finishLaunch() {
+    if (finished || !frameReady || !animationReady) return;
+    finished = true;
+    launch.classList.add('is-finished');
+  }
+
+  homeFrame.addEventListener('load', () => {
+    frameReady = true;
+    finishLaunch();
+  });
+
+  setTimeout(() => {
+    animationReady = true;
+    finishLaunch();
+  }, 3300);
+
+  // Запасний вихід, якщо головний екран завантажується надто довго.
+  setTimeout(() => {
+    frameReady = true;
+    animationReady = true;
+    finishLaunch();
+  }, 8000);
+})();
+</script>
 </body></html>
