@@ -48,3 +48,33 @@ footer a{letter-spacing:.19em}
 .envelope:active {
   transform: scale(0.97);
 }
+
+
+/* BALANCE — Letterpress envelope labels */
+
+.envelope span {
+  position: absolute;
+  top: 16%;
+  bottom: auto;
+  left: 0;
+  right: 0;
+
+  width: 100%;
+  padding: 0 6%;
+
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: clamp(7px, 1.65vw, 10px);
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  line-height: 1.2;
+  text-transform: uppercase;
+  white-space: nowrap;
+
+  color: #80553e;
+
+  text-shadow:
+    0 1px 0 rgba(255, 247, 231, 0.65),
+    0 -1px 1px rgba(75, 43, 27, 0.24);
+
+  pointer-events: none;
+}
