@@ -85,3 +85,18 @@ footer a{letter-spacing:.19em}
   position: relative;
   top: -12px;
 }
+
+/* BALANCE — refined footer spacing and contrast */
+
+footer {
+  margin-top: 24px;
+}
+
+footer p,
+footer a {
+  color: rgba(255, 248, 240, 0.78);
+}
+
+footer a {
+  margin-top: 10px;
+}
