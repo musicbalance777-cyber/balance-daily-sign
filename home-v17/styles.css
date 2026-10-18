@@ -78,3 +78,8 @@ footer a{letter-spacing:.19em}
 
   pointer-events: none;
 }
+
+/* BALANCE — move intro text closer to calligraphy */
+.intro p {
+  margin-top: 18px;
+}
