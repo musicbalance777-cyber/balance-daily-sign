@@ -108,6 +108,8 @@ async function navigate(toLetter, category = null) {
     opening = true;
     animationTimer = setTimeout(() => {
       stage.dataset.state = 'open';
+      // Count only a successfully revealed letter, not failed fetches or taps.
+      window.balanceAnalytics?.capture('envelope_opened', { category: activeCategory });
       opening = false;
       animationTimer = null;
     }, instant ? 0 : 2500);
