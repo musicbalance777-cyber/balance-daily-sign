@@ -1,5 +1,17 @@
 <!doctype html>
-<html lang="uk"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#171717"><style>
+<html lang="uk"><head>
+<script>
+/* BALANCE Analytics v1: privacy-minimized custom events only. */
+window.balanceAnalytics = {
+  capture(name, properties) {
+    if (window.posthog && typeof window.posthog.capture === 'function') {
+      window.posthog.capture(name, properties || {});
+    }
+  }
+};
+</script>
+<script async src="https://eu-assets.i.posthog.com/static/array.js" onload="window.posthog.init('phc_CgcvGJGNpDMygitKLiiS9wqqCwWE3uLQmHRqLVf4Fczr', {api_host:'https://eu.i.posthog.com',defaults:'2026-05-30',person_profiles:'identified_only',autocapture:false,capture_pageview:false,capture_pageleave:false,disable_session_recording:true,disable_surveys:true,loaded:function(ph){ph.capture('app_opened');}})"></script>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#171717"><style>
   html, body {
     background-color: #171717 !important;
   }
